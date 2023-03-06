@@ -1,5 +1,5 @@
-#ifndef UNTITLED2_CLIENT_SERVER_H
-#define UNTITLED2_CLIENT_SERVER_H
+#ifndef UNTITLED2_CLIENT_SERVER_HPP
+#define UNTITLED2_CLIENT_SERVER_HPP
 namespace Dandelion::Client {
     struct client_server{
 
@@ -11,4 +11,4 @@ namespace Dandelion::Client {
 
     };
 }
-#endif //UNTITLED2_CLIENT_SERVER_H
+#endif //UNTITLED2_CLIENT_SERVER_HPP
