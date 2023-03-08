@@ -4,6 +4,9 @@ namespace Dandelion::Server {
     struct server {
 
     };
+    struct get_client{
+
+    };
 }
 
 #endif //UNTITLED2_SERVER_HPP
