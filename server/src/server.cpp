@@ -1,20 +1,55 @@
-#include "server.hpp"
-namespace Dandelion::Server{
-    bool server::register_user(const std::string &login, const std::string &password){
-        try {
-          //  is_used_login(login);    use function hear to connect with BD
-        }catch(std::exception &exp){
-            return false;
+#include "server.h"
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QTime>
+
+void server::slotReadClient()
+{
+    QTcpSocket* pClientSocket = static_cast<QTcpSocket*>(sender());
+
+    QDataStream in(pClientSocket);
+    in.setVersion(QDataStream::Qt_4_2);
+    while(true) {
+        if (!m_nNextBlockSize) {
+            if (pClientSocket->bytesAvailable() < sizeof(quint16)) {
+                break;
+            }
+            in >> m_nNextBlockSize;
         }
-        //create_user(login, password);
-        return true;
-    }
-    bool server::check_signing_in(const std::string &login,const std::string &password){
-        try {
-          //  is_correct_account_login(login, password);   use function hear to connect with BD
-        }catch(std::exception &exp){
-            return false;
+
+        if (pClientSocket->bytesAvailable() < m_nNextBlockSize) {
+            break;
         }
-        return true;
+        QString   login;
+        QString password_1;
+        QString password_2;
+        in >> login >> password_1 >> password_2;
+
+        m_nNextBlockSize = 0;
+
+//        sendToClient(pClientSocket,
+//                     "Server Response: Received"
+//                    );
     }
 }
+
+
+
+/*virtual*/ void server::slotNewConnection()
+{
+    QTcpSocket* pClientSocket = m_ptcpServer->nextPendingConnection();
+    sockets.push_back(pClientSocket);  // push new socket;
+    connect(pClientSocket, SIGNAL(disconnected()),
+            pClientSocket, SLOT(deleteLater())
+           );
+    connect(pClientSocket, SIGNAL(readyRead()),
+            this,          SLOT(slotReadClient())
+           );
+
+   // sendToClient(pClientSocket, "Server Response: Connected!");
+}
+
+
