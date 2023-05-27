@@ -1,70 +1,107 @@
-м#ifndef SERVER_H
+#ifndef SERVER_H
 #define SERVER_H
+
 #include <QMessageBox>
 #include <QTcpServer>
 #include <QWidget>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include "database.hpp"
+#include <QMap>
+
 class QTcpServer;
-class QTextEdit;
+
 class QTcpSocket;
 
-class server : public QWidget
-{
-Q_OBJECT
-private:
-    QTcpServer* m_ptcpServer;
-   // QTextEdit*  m_ptxt;
-    quint16     m_nNextBlockSize;
-    QVector<QTcpSocket *> sockets;
-    qint16 port;
+struct client_socket;
 
-public:
-    server(int nPort, QWidget* pwgt =0) : QWidget(pwgt),m_nNextBlockSize(0)
-    {
-        m_ptcpServer = new QTcpServer(this);
-        port = nPort;
-        if (!m_ptcpServer->listen(QHostAddress::Any, nPort)) {
-            QMessageBox::critical(0,
-                                  "Server Error",
-                                  "Unable to start the server:"
-                                  + m_ptcpServer->errorString()
-                                 );
-            m_ptcpServer->close();
-            return;
-        }
-        connect(m_ptcpServer, SIGNAL(newConnection()),
-                this,         SLOT(slotNewConnection())
-               );
-    }
-    static server &getInstance(){
-                static server server(2323);
-                return server;
-            }
-    friend bool register_user(const QString &login, const QString &password);
-    friend bool check_signing_in(const QString &login,const QString &password);
-    void sendToClient(QTcpSocket* pSocket, const QString& str);
+namespace Dandelion::Server {
+    class client_socket;
 
-public slots:
-    virtual void slotNewConnection();
-            void slotReadClient   ();
-};
+    class server : public QObject {
+    Q_OBJECT
+    private:
+        QByteArray Data;
+        qint16 PORT{};
+        Database *m_db{};
+        QMap<qint64, client_socket *> m_sockets;
+    public:
+        QTcpServer *m_Server{};
 
-bool register_user(const QString &login, const QString &password){
-        try {
-          //  is_used_login(login);    use function hear to connect with BD
-        }catch(std::exception &exp){
-            return false;
-        }
-        //create_user(login, password);
-        return true;
-    }
-bool check_signing_in(const QString &login,const QString &password){
-        try {
-          //  is_correct_account_login(login, password);   use function hear to connect with BD
-        }catch(std::exception &exp){
-            return false;
-        }
-        return true;
-    }
+        ~server() override;
 
+        bool start_server(qint16 port, std::string &config_file);
+
+        bool connect_to_database(std::string &config_file);
+
+        server(QObject *parent = nullptr);
+
+        static server &getInstance() {
+            static server m_Server;
+            return m_Server;
+        };
+
+        void disconnect_socket(client_socket *socket);
+
+    public slots:
+
+        void incomingConnection();
+    };
+
+
+//////////NEW
+
+
+    struct client_request;
+
+    class client_socket : public QObject {
+    Q_OBJECT
+
+    private:
+        Database *m_db;
+        server *m_server;
+        quint16 m_socket_id;
+        client_request *m_request;
+    public:
+        QTcpSocket *m_socket;
+
+        ~client_socket() override;
+
+        void send_to_client(const QByteArray &data);
+
+        explicit client_socket(QTcpSocket *socket, Database *db, server *server, quint16 id, QObject *parent = nullptr);
+
+        int get_socket_id();
+
+    public slots:
+
+        void read_from_client();
+
+        void disconnect();
+
+    };
+
+
+//////////NEW
+
+
+    class client_request : public QObject {
+    Q_OBJECT
+        Database *m_db;
+        client_socket *request_sender;
+    public:
+        explicit client_request(Database *db);
+
+        QJsonDocument check_request(User probably_new_user, const std::string &error_text);
+
+        QJsonDocument validate_request(const QByteArray &data);
+
+        QJsonDocument make_registration(const QJsonObject &request);
+
+        QJsonDocument sign_in(const QJsonObject &request);
+    };
+
+
+}
 
 #endif // SERVER_H
