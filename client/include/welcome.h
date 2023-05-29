@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMainWindow>
 #include "main_menu.h"
+
 namespace Ui {
 class Welcome;
 }
@@ -17,7 +18,7 @@ public:
     ~Welcome();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_ContinueButton_clicked();
 
 private:
     Ui::Welcome *ui;
