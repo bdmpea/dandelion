@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>dandelion</string>
   </property>
   <property name="styleSheet">
    <string notr="true">Registration
@@ -19,7 +19,7 @@
 	background-color: rgb(202, 212, 255);
 }</string>
   </property>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="Registration_2">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -38,7 +38,7 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Registration&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="RegistrationButton">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -64,20 +64,7 @@ font: 700 9pt &quot;Yu Gothic UI&quot;;
     <string>REGISTER</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>350</y>
-     <width>63</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -88,7 +75,7 @@ font: 700 9pt &quot;Yu Gothic UI&quot;;
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="Username">
       <property name="font">
        <font>
         <family>Yu Gothic</family>
@@ -116,7 +103,7 @@ font: 700 9pt &quot;Yu Gothic UI&quot;;
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="Password">
       <property name="font">
        <font>
         <family>Yu Gothic</family>
@@ -142,7 +129,7 @@ font: 700 9pt &quot;Yu Gothic UI&quot;;
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label_6">
+     <widget class="QLabel" name="ConfirmPassword">
       <property name="font">
        <font>
         <family>Yu Gothic</family>
@@ -153,7 +140,7 @@ font: 700 9pt &quot;Yu Gothic UI&quot;;
        <string notr="true">color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Repeat password&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:400;&quot;&gt;Confirm password&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
