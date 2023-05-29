@@ -8,12 +8,14 @@ Welcome::Welcome(QMainWindow *parent) :
     ui->setupUi(this);
 }
 
+
 Welcome::~Welcome()
 {
     delete ui;
 }
 
-void Welcome::on_pushButton_clicked()
+
+void Welcome::on_ContinueButton_clicked()
 {
     hide();
     main_window = new Main_Menu(this);

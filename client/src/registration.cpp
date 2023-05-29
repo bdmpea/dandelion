@@ -8,23 +8,34 @@ Registration::Registration(QWidget *parent) :
     ui->setupUi(this);
 }
 
+
 Registration::~Registration()
 {
     delete ui;
 }
 
-void Registration::on_pushButton_clicked()
+QString Registration::get_username(){
+    return ui->username->text();
+}
+QString Registration::get_password(){
+    return ui->password->text();
+}
+
+
+void Registration::on_RegistrationButton_clicked()
 {
     QString username = ui->username->text();
     QString password = ui->password->text();
     QString password_2 = ui->password_2->text();
-    //check_registration(username) этой функцией мы хотим проверять
+    if (password != password_2){
+        QMessageBox::warning(this, "registration", "passwords are not the same:(");
+    }
     if (username == "1" && password == "1" && password_2 == "1"){
         hide();
         welcome_window = new Welcome(this);
         welcome_window->show();
     } else {
-        QMessageBox::warning(this, "registration", "this username exists, try again!");
+        QMessageBox::warning(this, "registration", "something went wrong, try again!");
     }
 }
 
