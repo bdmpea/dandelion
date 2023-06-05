@@ -1,5 +1,8 @@
 #include "../include/database.hpp"
-
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QObject>
+#include <QTcpSocket>
 namespace Dandelion::Server {
     Database::Database(const std::string &connection_string) : m_connection(connection_string.c_str()) {}
 
@@ -39,10 +42,12 @@ namespace Dandelion::Server {
 
     User User_Database::make_signing_in(const std::string &login, const std::string &password, Database &db) {
         unsigned int user_id = is_used_login(login, db);
+      //  qDebug() << user_id;
         if (user_id) {
             pqxx::work worker(db.m_connection);
             auto correct_password = worker.query_value<std::string>(
                     "SELECT password FROM register_users WHERE username ='" + login + "\'");
+           // qDebug() << QString::fromStdString(correct_password);
             if (password == correct_password) {
                 return {login, password};
             } else {

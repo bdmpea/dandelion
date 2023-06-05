@@ -45,6 +45,7 @@ namespace Dandelion::Server {
     }
 
     void server::incomingConnection() {
+        qDebug() << "New connection";
         QTcpSocket *new_connection = m_Server->nextPendingConnection();
         auto *new_socket = new client_socket(new_connection, m_db, this, new_connection->socketDescriptor());
         m_sockets[new_connection->socketDescriptor()] = new_socket;
@@ -67,10 +68,10 @@ namespace Dandelion::Server {
             : m_socket(socket), m_db(db), m_server(server), m_socket_id(id),
               QObject(nullptr) {
         connect(m_socket, SIGNAL(disconnected()),
-                m_socket, SLOT(disconnect())
+                this, SLOT(disconnect())
         );
         connect(m_socket, SIGNAL(readyRead()),
-                this, SLOT(ReadClient())
+                this, SLOT(read_from_client())
         );
         m_request = new client_request(m_db);
     }
@@ -81,13 +82,23 @@ namespace Dandelion::Server {
     }
 
     void client_socket::send_to_client(const QByteArray &data) {
-        m_socket->write(data);
-        m_socket->flush();
+        QByteArray block;
+        QDataStream out(&block, QIODevice::WriteOnly);
+        out << (quint16)data.size();
+        out << data;
+        m_socket->write(block);
+       // m_socket->flush();
+       m_socket->waitForBytesWritten();
     }
 
     void client_socket::read_from_client() {
         QByteArray data = m_socket->readAll();
+        qDebug() << "got from client";
         QJsonDocument response = m_request->validate_request(data);
+        qDebug() << "Before sending" << response.object().value("status").toString();
+        qDebug() << "Before sending" << response.object().value("password").toString();
+        qDebug() << "Before sending" << response.object().value("username").toString();
+        qDebug() << "Before sending" << response.object().value("type").toString();
         send_to_client(response.toJson());
     }
 
@@ -117,9 +128,17 @@ namespace Dandelion::Server {
                 return response;
             }
             if (request_type == "signing_in") {
-                return sign_in(json_data.object());
+                QJsonDocument answer = sign_in(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "sign_in";
+                answer.setObject(obj);
+                return answer;
             } else if (request_type == "registration") {
-                return make_registration(json_data.object());
+                QJsonDocument answer =  make_registration(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "registration";
+                answer.setObject(obj);
+                return answer;
             } else {
                 QJsonObject json_response;
                 json_response["status"] = "error";
