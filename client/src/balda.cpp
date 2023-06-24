@@ -19,7 +19,6 @@ balda::balda(QWidget *parent) :
     ui->graphicsView->setCacheMode(QGraphicsView::CacheBackground);
     ui->graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
-
     QPixmap pixmap(":/resources/field.png");
     ui->graphicsView->setBackgroundBrush(pixmap);
 
@@ -39,6 +38,16 @@ balda::balda(QWidget *parent) :
 
     x_last_letter_position = 600 + 9*40;
     y_last_letter_position = 75;
+
+    ui->NewWordButton->setIcon(QIcon(":/resources/word.png"));
+    ui->WordWidget->setGeometry(658, 360, 170, 90);
+    ui->WhiteWidget->setGeometry(655, 358, 176, 95);
+    ui->WordWidget->hide();
+    ui->WhiteWidget->hide();
+
+    ui->NewLetterButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->AddButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->StopGameButton->setStyleSheet("border-image: url(:/resources/card.png)");
 }
 
 balda::~balda()
@@ -59,3 +68,18 @@ void balda::on_NewLetterButton_clicked(){
     }
     scene->addItem(item);
 }
+
+void balda::on_NewWordButton_clicked(){
+    ui->WordWidget->show();
+    ui->WhiteWidget->show();
+}
+
+void balda::on_AddButton_clicked(){
+    ui->WordWidget->hide();
+    ui->WhiteWidget->hide();
+}
+
+QString balda::get_new_word(){
+    return ui->Word->text();
+}
+

@@ -31,6 +31,9 @@ flashcards_desk::flashcards_desk(QMainWindow *parent) :
     ui->progressBar->setValue(1);
     //training_display->start_training();
 
+    ui->StopTestYourselfButton->setStyleSheet("border-image: url(:/resources/card.png)");
+
+
     QObject::connect(&cards, SIGNAL(update_display_after_deleting()), this, SLOT(display()));
     QObject::connect(training_display, SIGNAL(test_finished()), this, SLOT(on_TestYourselfFinished()));
     QObject::connect(training_display, SIGNAL(progress_update()), this, SLOT(on_TestProgressUpdate()));

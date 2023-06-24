@@ -6,6 +6,8 @@ info_window::info_window(QWidget *parent) :
     ui(new Ui::info_window)
 {
     ui->setupUi(this);
+    ui->OkButton->setStyleSheet("border-image: url(:/resources/card.png)");
+
 }
 
 info_window::~info_window()

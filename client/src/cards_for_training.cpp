@@ -29,7 +29,6 @@ void cards_for_training::add_new_card(){
         QObject::connect(new_flashcard, SIGNAL(context_changed(bool)), this, SLOT(set_cards_modified(bool)));
         set_cards_modified(true);
     }
-
 }
 
 

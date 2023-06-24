@@ -7,10 +7,23 @@ Main_Menu::Main_Menu(QMainWindow *parent) :
 {
     ui->setupUi(this);
     ui->HomeButton->setIcon(QIcon(":/resources/home.png"));
+    ui->NewWordButton->setIcon(QIcon(":/resources/word.png"));
 
     personal_account = new PersonalAccount();
+    balda_game = new balda;
+
+    ui->WordWidget->hide();
+    ui->WhiteWidget->hide();
+
+    ui->WordWidget->setGeometry(54, 14, 170, 90);
+    ui->WhiteWidget->setGeometry(52, 12, 175, 95);
 
 
+    ui->BaldaButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->WhoAmIButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->WordChainButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->FillwordsButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->AddButton->setStyleSheet("border-image: url(:/resources/card.png)");
 }
 
 
@@ -29,11 +42,24 @@ void Main_Menu::on_HomeButton_clicked()
 
 void Main_Menu::on_BaldaButton_clicked()
 {
-    balda_game = new balda;
-
     balda_game->show();
     this->hide();
-    //balda_game->start();
 }
+
+
+void Main_Menu::on_NewWordButton_clicked(){
+    ui->WordWidget->show();
+    ui->WhiteWidget->show();
+}
+
+QString Main_Menu::get_new_word(){
+    return ui->Word->text();
+}
+
+void Main_Menu::on_AddButton_clicked(){
+    ui->WordWidget->hide();
+    ui->WhiteWidget->hide();
+}
+
 
 

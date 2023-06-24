@@ -6,6 +6,8 @@ Welcome::Welcome(QMainWindow *parent) :
     ui(new Ui::Welcome)
 {
     ui->setupUi(this);
+    ui->ContinueButton->setStyleSheet("border-image: url(:/resources/card.png)");
+
 }
 
 
