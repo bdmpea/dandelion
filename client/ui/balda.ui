@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>dandelion</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
@@ -127,11 +127,16 @@ background-color:rgb(202, 212,255);
    <widget class="QPushButton" name="NewLetterButton">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>473</y>
-      <width>151</width>
+      <x>700</x>
+      <y>474</y>
+      <width>80</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic</family>
+     </font>
     </property>
     <property name="text">
      <string>new letter</string>
@@ -166,10 +171,10 @@ background-color:rgb(202, 212,255);
    <widget class="QPushButton" name="StopGameButton">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>470</y>
-      <width>83</width>
-      <height>29</height>
+      <x>610</x>
+      <y>474</y>
+      <width>80</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
@@ -178,7 +183,7 @@ background-color:rgb(202, 212,255);
      </font>
     </property>
     <property name="text">
-     <string>stop game</string>
+     <string>give up</string>
     </property>
    </widget>
   </widget>
