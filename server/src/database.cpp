@@ -26,6 +26,7 @@ namespace Dandelion::Server {
             "(username, password)"\
             "VALUES(\'" + login + "\',\'" + password + "\');"
                 );
+              //  create_personal_dictionary(db, login);
                 return {login, password};
             }
         } catch (...) {
@@ -49,6 +50,7 @@ namespace Dandelion::Server {
                     "SELECT password FROM register_users WHERE username ='" + login + "\'");
            // qDebug() << QString::fromStdString(correct_password);
             if (password == correct_password) {
+                create_personal_dictionary(worker, login);
                 return {login, password};
             } else {
                 return {"", ""};
@@ -56,4 +58,36 @@ namespace Dandelion::Server {
         }
         return {"", ""};
     }
+
+    void User_Database::create_personal_dictionary(pqxx::work &worker, const std::string &login) {
+        try {
+            worker.exec("CREATE TABLE IF NOT EXISTS " + login + " ( "\
+         " id serial  PRIMARY KEY,"\
+         " word character varying(32) NOT NULL,"\
+         " meaning character varying(64) NOT NULL,"\
+         " examples  character varying(64) NOT NULL );"
+            );
+           // worker.commit();
+            bool if_empty = worker.query_value<bool>(" SELECT(SELECT count(*) FROM " + login +") = 0 ");
+            qDebug() << if_empty;
+            if(if_empty) {
+                worker.exec("INSERT INTO " + login + "(word, meaning, examples) VALUES"\
+            "('cat', 'a small  carnivorous mammal with soft fur', 'black cat'),"\
+            "('dog', 'a  carnivorous mammal that  has a long snout', 'white dog'),"\
+            "('commit', 'perform an act with a negative connotation', 'make new commit'),"\
+            "('issue', 'some situation or event that is thought about', 'hard issue'),"\
+            "('stock', 'capital raised by a corporation ', 'apple stock is cheap'),"\
+            "('circumstances', 'one overall condition in life', 'the circumstances leading up'),"\
+            "('level', 'a relative position or degree of value ', 'rates reach the same level'),"\
+            "('affect', 'have an influence upon', 'companies affected by the flooding'),"\
+            "('institute', 'set up or lay the groundwork for', 'focused on instituting higher labor'),"\
+            "('render', 'give an interpretation of', 'but authorities had rendered the weapon')"
+                );
+            }
+            worker.commit();
+        } catch (const std::exception& e){
+            std::cerr << e.what() <<  std::endl;
+        }
+    }
 }
+
