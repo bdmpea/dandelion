@@ -1,6 +1,10 @@
 #include "vocabulary_list.h"
 #include "ui_vocabulary_list.h"
-//#include <QEditeLine>
+#include <QLabel>
+
+QList<QList<QString>> TEST_2 = {{"cat", "a small mammal with soft fur"}, {"dog", "a mammal that has a long snout"}, {"commit", "perform an act with a negative connotation"},{"issue","some situation or event that is thought about"},
+                             {"cat", "a small mammal with soft fur"}, {"dog", "a mammal that has a long snout"}, {"commit", "perform an act with a negative connotation"},{"issue","some situation or event that is thought about"},
+                             {"cat", "a small mammal with soft fur"}, {"dog", "a mammal that has a long snout"}, {"commit", "perform an act with a negative connotation"},{"issue","some situation or event that is thought about"}};
 
 
 vocabulary_list::vocabulary_list(QWidget *parent) :
@@ -11,25 +15,43 @@ vocabulary_list::vocabulary_list(QWidget *parent) :
 
     scroll_area = new QGridLayout();
     display();
+
+    ui->BackButton->setStyleSheet("border-image: url(:/arrow.png)");
 }
 
 vocabulary_list::~vocabulary_list()
 {
     delete ui;
 }
-/*
-void vocabulary_list::start(){
-    QWidget *new_word = new QWidget;
-    scroll_area->addWidget(new_word, 165, 165);
-    ui->scrollAreaWidgetContents->setLayout(scroll_area);
-    ui->scrollArea->show();
-    //ui->scrollArea->setWidget(new_word);
-}*/
 
 void vocabulary_list::display(){
-    QWidget *new_word = new QWidget;
-    new_word->resize(100, 100);
-    scroll_area->addWidget(new_word, 10, 10);
+    int columns = qMax( (this->size().width()) / (313 + 25), 1 );
+    int total = 0;
+
+    for (auto data: TEST_2) {                     //проходим по массиву со словами
+        QWidget *new_word= new QWidget;         //widget to hold a word and a discription
+        new_word->setStyleSheet("background-color:white;");
+        new_word->setFixedSize(QSize(400, 50));
+
+        QLabel *word = new QLabel(new_word);    //label for word
+        word->setText(data[0]);                  //сюда нужно передать слово
+        word->setGeometry(10,10,160,30);
+
+        QLabel *meaning = new QLabel(new_word);    //label for discription
+        meaning->setText(data[1]);               //сюда нужно передать значение
+        meaning->setGeometry(180,10,210,30);
+
+        int row = total / columns;
+        int column = total % columns;
+        scroll_area->addWidget(new_word, row, column);
+        total++;
+    }
+
     ui->scrollAreaWidgetContents->setLayout(scroll_area);
     ui->scrollArea->show();
+}
+
+void vocabulary_list::on_BackButton_clicked(){
+    this->hide();
+    emit open_personal_account();
 }
