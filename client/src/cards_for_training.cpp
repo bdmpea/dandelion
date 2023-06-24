@@ -43,3 +43,12 @@ void cards_for_training::delete_one_card(flashcard *card){
     emit update_display_after_deleting();
     set_cards_modified(true);
 }
+
+void cards_for_training::create(QList<QList<QString>> users_data){
+    for (auto word:users_data){
+        flashcard *new_flashcard = new flashcard;
+        new_flashcard->set_word(word[0]);
+        new_flashcard->set_meaning(word[1]);
+        cards.append(new_flashcard);
+    }
+}
