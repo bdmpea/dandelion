@@ -21,6 +21,10 @@ public:
 
 public slots:
      void on_NewLetterButton_clicked();
+     void on_NewWordButton_clicked();
+     void on_AddButton_clicked();
+     QString get_new_word();
+
 
 private:
     Ui::balda *ui;

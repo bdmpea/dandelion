@@ -22,9 +22,13 @@ public:
 
 private slots:
     void on_BackButton_clicked();
+    void on_VocabularyButton_clicked();
     void on_FlashcardsButton_clicked();
     void close_window();
 
+    void on_NewWordButton_clicked();
+    QString get_new_word();
+    void on_AddButton_2_clicked();
 
 private:
     Ui::PersonalAccount *ui;

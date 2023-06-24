@@ -22,6 +22,9 @@ public:
 private slots:
     void on_HomeButton_clicked();
     void on_BaldaButton_clicked();
+    void on_NewWordButton_clicked();
+    QString get_new_word();
+    void on_AddButton_clicked();
 
 private:
     Ui::Main_Menu *ui;
