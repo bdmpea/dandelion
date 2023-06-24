@@ -3,38 +3,39 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+QList<QList<QString>> TEST = {{"cat", "a small mammal with soft fur"}, {"dog", "a mammal that has a long snout"}, {"commit", "perform an act with a negative connotation"},{"issue","some situation or event that is thought about"}};
+
 flashcards_desk::flashcards_desk(QMainWindow *parent) :
     QMainWindow(parent),
     ui(new Ui::flashcards_desk)
 {
     ui->setupUi(this);
-    this->setWindowTitle(tr("Flashcards"));
+    this->setWindowTitle(tr("flashcards"));
 
     scroll_area = new QGridLayout();
 
+
+    cards = new cards_for_training();
+    cards->create(TEST);                    //сюда я передаю слова, чтобы сделать флэшкарты
     training_display = new training();
+    training_display->set_desk(cards);
+
     training_display_widget = new QWidget();
     training_display_layout = new QHBoxLayout();
     training_display_layout->addWidget(this->training_display);
     training_display_widget->setLayout(this->training_display_layout);
     ui->DisplayStackedWidget->addWidget(this->training_display_widget);
 
-    //ui->DisplayStackedWidget->setCurrentWidget(ui->DisplayFlashcards);
-    //ui->BottomStackedWidget->setCurrentWidget(ui->BottomStackedWidgetPage1);
-    //ui->TopStackedWidget->setCurrentWidget(ui->TopStackedWidgetPage1);
-
-    //training_display->set_desk(&cards); //TODO:
     ui->DisplayStackedWidget->setCurrentWidget(training_display_widget);
     ui->BottomStackedWidget->setCurrentWidget(ui->BottomStackedWidgetPage2);
     ui->TopStackedWidget->setCurrentWidget(ui->TopStackedWidgetPage2);
-    ui->progressBar->setMaximum(cards.cards.length());
+    ui->progressBar->setMaximum(cards->cards.length());
     ui->progressBar->setValue(1);
-    //training_display->start_training();
 
-    ui->StopTestYourselfButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->StopTestYourselfButton->setStyleSheet("border-image: url(:/card.png)");
 
 
-    QObject::connect(&cards, SIGNAL(update_display_after_deleting()), this, SLOT(display()));
+    QObject::connect(cards, SIGNAL(update_display_after_deleting()), this, SLOT(display()));
     QObject::connect(training_display, SIGNAL(test_finished()), this, SLOT(on_TestYourselfFinished()));
     QObject::connect(training_display, SIGNAL(progress_update()), this, SLOT(on_TestProgressUpdate()));
 }
@@ -45,13 +46,11 @@ flashcards_desk::~flashcards_desk()
 }
 
 
-
-
 void flashcards_desk::display() {
     int columns = qMax( (this->size().width() - window_border) / (flashcard_height + space_between_cards), 1 );
     int total = 0;
 
-    for (auto *card: cards.cards){
+    for (auto *card: cards->cards){
         int row = total / columns;
         int column = total % columns;
         scroll_area->addWidget(card->flashcard_button, row, column);
@@ -63,19 +62,14 @@ void flashcards_desk::display() {
 }
 
 
-void flashcards_desk::on_AddNewCardButton_clicked(){
-    cards.add_new_card();
-    display();
-}
 
-
-void flashcards_desk::on_TestYourselfButton_clicked() {
-    if ( cards.cards.length() > 0 ){
-        training_display->set_desk(&cards);
+void flashcards_desk::TestYourself() {
+    if (cards->cards.length() > 0 ){
+        training_display->set_desk(cards);
         ui->DisplayStackedWidget->setCurrentWidget(training_display_widget);
         ui->BottomStackedWidget->setCurrentWidget(ui->BottomStackedWidgetPage2);
         ui->TopStackedWidget->setCurrentWidget(ui->TopStackedWidgetPage2);
-        ui->progressBar->setMaximum(cards.cards.length());
+        ui->progressBar->setMaximum(cards->cards.length());
         ui->progressBar->setValue(1);
         training_display->start_training();
     }
@@ -86,19 +80,19 @@ void flashcards_desk::on_TestYourselfButton_clicked() {
 }
 
 
+
+
 void flashcards_desk::on_TestYourselfFinished(){
     QMessageBox::information(this, "Result",
                  "You know " + QString::number(training_display->right_cards) +
                  " /" + QString::number(training_display->training_desk->cards.length()) + " cards");
-    ui->DisplayStackedWidget->setCurrentWidget(ui->DisplayFlashcards);
-    ui->BottomStackedWidget->setCurrentWidget(ui->BottomStackedWidgetPage1);
-    ui->TopStackedWidget->setCurrentWidget(ui->TopStackedWidgetPage1);
+    this->hide();
+    emit open_personal_account();
 }
 
 
 void flashcards_desk::on_TestProgressUpdate() {
     ui->progressBar->setValue(training_display->current_sequence_index+1);
-    //ui->progressBar->update();
 }
 
 
@@ -123,12 +117,3 @@ void flashcards_desk::clear_scroll_area(){
         }
     }
 }
-
-
-
-
-
-
-
-
-
