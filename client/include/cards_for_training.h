@@ -22,6 +22,7 @@ public:
     void clear();
     void add_new_card();
     void show_all_cards();
+    void create(QList<QList<QString>> users_data);
 
 signals:
     void update_display_after_deleting();
