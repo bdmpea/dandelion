@@ -10,11 +10,12 @@ PersonalAccount::PersonalAccount(QWidget *parent) :
     ui(new Ui::PersonalAccount)
 {
     ui->setupUi(this);
-    ui->BackButton->setIcon(QIcon(":/resources/arrow.png"));
-    ui->NewWordButton->setIcon(QIcon(":/resources/word.png"));
+    ui->BackButton->setIcon(QIcon(":/arrow.png"));
+    ui->NewWordButton->setIcon(QIcon(":/word.png"));
 
     info = new info_window;
     desk = new flashcards_desk;
+    vocabulary = new vocabulary_list;
 
     ui->WordWidget->setGeometry(54, 14, 170, 90);
     ui->WhiteWidget->setGeometry(52, 12, 175, 95);
@@ -22,12 +23,15 @@ PersonalAccount::PersonalAccount(QWidget *parent) :
     ui->WordWidget->hide();
     ui->WhiteWidget->hide();
 
-    ui->AddButton_2->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->VocabularyButton->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->FlashcardsButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->AddButton_2->setStyleSheet("border-image: url(:/card.png)");
+    ui->VocabularyButton->setStyleSheet("border-image: url(:/card.png)");
+    ui->FlashcardsButton->setStyleSheet("border-image: url(:/card.png)");
 
 
     QObject::connect(info, SIGNAL(close_personal_account()), this, SLOT(close_window()));
+    QObject::connect(desk, SIGNAL(open_personal_account()), this, SLOT(open_window()));
+    QObject::connect(desk, SIGNAL(open_personal_account()), this, SLOT(open_window()));
+
 }
 
 
@@ -39,6 +43,7 @@ PersonalAccount::~PersonalAccount()
 void PersonalAccount::close_window(){
     this->hide();
     desk->show();
+    desk->TestYourself();
 }
 
 
@@ -57,10 +62,8 @@ void PersonalAccount::on_FlashcardsButton_clicked()
 }
 
 void PersonalAccount::on_VocabularyButton_clicked(){
-    vocabulary_list *window = new vocabulary_list;
-    window->show();
+    vocabulary->show();
     this->hide();
-    //window->start();
 }
 
 void PersonalAccount::on_NewWordButton_clicked(){
@@ -77,6 +80,8 @@ void PersonalAccount::on_AddButton_2_clicked(){
     ui->WhiteWidget->hide();
 }
 
-
-
-
+void PersonalAccount::open_window(){
+    this->show();
+    delete desk;
+    desk = new flashcards_desk;
+}
