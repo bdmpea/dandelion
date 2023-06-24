@@ -17,14 +17,56 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 find_package(Qt5 REQUIRED COMPONENTS Network)
 
 set(PROJECT_SOURCES
+        cllient/include/client.h
+        cllient/include/main_menu.h
+        cllient/include/main_window.h
+        cllient/include/balda.h
+        cllient/include/info_window.h
+        cllient/include/vocabulary_list.h
+        cllient/include/letter.h
+        cllient/src/info_window.cpp
+        cllient/src/info_window.ui
+        cllient/src/balda.cpp
+        cllient/src/vocabulary_list.cpp
+        cllient/src/letter.cpp
+        cllient/src/balda.ui
+        cllient/src/vocabulary_list.ui
+        cllient/include/button.h
+        cllient/include/cards_for_training.h
+        cllient/include/flashcard.h
+        cllient/include/flashcards_desk.h
+        cllient/include/personal_account.h
+        cllient/include/registration.h
+        cllient/include/training.h
+        cllient/include/welcome.h
+        cllient/src/welcome.cpp
+        cllient/src/training.cpp
+        cllient/src/registration.cpp
+        cllient/src/personal_account.cpp
+        cllient/src/main_window.cpp
+        cllient/src/main_menu.cpp
+        cllient/src/main.cpp
+        cllient/src/flashcards_desk.cpp
+        cllient/src/flashcard.cpp
+        cllient/src/cards_for_training.cpp
+        cllient/src/button.ui
+        cllient/src/flashcard.ui
+        cllient/src/flashcards_desk.ui
+        cllient/src/main_menu.ui
+        cllient/src/main_window.ui
+        cllient/src/personal_account.ui
+        cllient/src/registration.ui
+        cllient/src/training.ui
+        cllient/src/welcome.ui
+        cllient/src/button.cpp
+        cllient/include/client.h
+        cllient/src/client.cpp
+        server/include/database.hpp
+        server/include/server.hpp
         server/src/server.cpp
         server/src/database.cpp
-        server/include/server.hpp
-        server/include/database.hpp
-        server/src/main.cpp
-        server/include/client.h
-        cllient/src/client.cpp
-       )
+        cllient/resources/imgs.qrc
+        )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(First_Project
