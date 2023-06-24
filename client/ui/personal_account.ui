@@ -23,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>40</y>
+     <y>70</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -62,24 +62,6 @@
      <width>29</width>
      <height>28</height>
     </size>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Rating">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>90</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Yu Gothic</family>
-    </font>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;rating&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="VocabularyButton">
