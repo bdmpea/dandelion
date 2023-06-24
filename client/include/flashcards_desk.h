@@ -22,20 +22,23 @@ public:
     explicit flashcards_desk(QMainWindow *parent = nullptr);
     ~flashcards_desk();
 
+    void TestYourself();
+
+
+signals:
+    void open_personal_account();
 
 public slots:
     void display();
 
 private slots:
-    void on_AddNewCardButton_clicked();
-    void on_TestYourselfButton_clicked();
     void on_TestYourselfFinished();
     void on_TestProgressUpdate();
     void on_StopTestYourselfButton_clicked();
 
 private:
     Ui::flashcards_desk *ui;
-    cards_for_training cards;
+    cards_for_training *cards;
     QGridLayout *scroll_area;
     QHBoxLayout *training_display_layout;
     QWidget *training_display_widget;
