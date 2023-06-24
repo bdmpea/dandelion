@@ -4,6 +4,7 @@
         <file>resources/card.png</file>
         <file>resources/home.png</file>
         <file>resources/field.png</file>
+        <file>resources/word.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>
