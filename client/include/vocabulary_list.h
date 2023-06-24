@@ -19,10 +19,15 @@ public:
     void start();
     void display();
 
+signals:
+    void open_personal_account();
+
+private slots:
+    void on_BackButton_clicked();
+
 private:
     Ui::vocabulary_list *ui;
     QGridLayout *scroll_area;
-
 };
 
 #endif // VOCABULARY_LIST_H
