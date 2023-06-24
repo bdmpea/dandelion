@@ -5,7 +5,7 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QTcpSocket>
-#include "main_window.h"
+#include "../../cllient/include/mainwindow.h"
 
 class User_information {
     QString m_username;
