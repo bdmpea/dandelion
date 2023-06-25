@@ -3,6 +3,8 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QTcpSocket>
+#include <QVector>
+
 namespace Dandelion::Server {
     Database::Database(const std::string &connection_string) : m_connection(connection_string.c_str()) {}
 
@@ -26,7 +28,7 @@ namespace Dandelion::Server {
             "(username, password)"\
             "VALUES(\'" + login + "\',\'" + password + "\');"
                 );
-              //  create_personal_dictionary(db, login);
+                //  create_personal_dictionary(db, login);
                 return {login, password};
             }
         } catch (...) {
@@ -43,12 +45,12 @@ namespace Dandelion::Server {
 
     User User_Database::make_signing_in(const std::string &login, const std::string &password, Database &db) {
         unsigned int user_id = is_used_login(login, db);
-      //  qDebug() << user_id;
+        //  qDebug() << user_id;
         if (user_id) {
             pqxx::work worker(db.m_connection);
             auto correct_password = worker.query_value<std::string>(
                     "SELECT password FROM register_users WHERE username ='" + login + "\'");
-           // qDebug() << QString::fromStdString(correct_password);
+            // qDebug() << QString::fromStdString(correct_password);
             if (password == correct_password) {
                 create_personal_dictionary(worker, login);
                 return {login, password};
@@ -59,6 +61,18 @@ namespace Dandelion::Server {
         return {"", ""};
     }
 
+    bool User_Database::add_new_word(const std::string &login, const std::string &word, Database &db) {
+        try {
+            db.Database::do_query("INSERT INTO " + login + "(word, meaning, examples) VALUES"\
+            "(\'" + word + "\' , 'some meaning', 'some example')"
+            );
+        } catch (const std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            return false;
+        }
+        return true;
+    }
+
     void User_Database::create_personal_dictionary(pqxx::work &worker, const std::string &login) {
         try {
             worker.exec("CREATE TABLE IF NOT EXISTS " + login + " ( "\
@@ -67,10 +81,10 @@ namespace Dandelion::Server {
          " meaning character varying(64) NOT NULL,"\
          " examples  character varying(64) NOT NULL );"
             );
-           // worker.commit();
-            bool if_empty = worker.query_value<bool>(" SELECT(SELECT count(*) FROM " + login +") = 0 ");
+            // worker.commit();
+            bool if_empty = worker.query_value<bool>(" SELECT(SELECT count(*) FROM " + login + ") = 0 ");
             qDebug() << if_empty;
-            if(if_empty) {
+            if (if_empty) {
                 worker.exec("INSERT INTO " + login + "(word, meaning, examples) VALUES"\
             "('cat', 'a small  carnivorous mammal with soft fur', 'black cat'),"\
             "('dog', 'a  carnivorous mammal that  has a long snout', 'white dog'),"\
@@ -85,9 +99,25 @@ namespace Dandelion::Server {
                 );
             }
             worker.commit();
-        } catch (const std::exception& e){
-            std::cerr << e.what() <<  std::endl;
+        } catch (const std::exception &e) {
+            std::cerr << e.what() << std::endl;
         }
+    }
+
+    QVector<QVector<QString>> User_Database::get_vocabulary(const std::string &login, Database &db) {
+        QVector<QVector<QString>> vocabulary;
+        try{
+            pqxx::work worker(db.m_connection);
+            pqxx::result result = worker.exec("SELECT * FROM " + login);
+            vocabulary.resize(result.size());
+            for(int i = 0; i < result.size(); i++){
+                vocabulary[i].push_back(QString::fromStdString(to_string(result[i][1])));
+                vocabulary[i].push_back(QString::fromStdString(to_string(result[i][2])));
+            }
+        } catch(const std::exception &e){
+            std::cerr << e.what() << std::endl;
+        }
+        return vocabulary;
     }
 }
 

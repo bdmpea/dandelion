@@ -48,6 +48,7 @@ namespace Dandelion::Server {
         qDebug() << "New connection";
         QTcpSocket *new_connection = m_Server->nextPendingConnection();
         auto *new_socket = new client_socket(new_connection, m_db, this, new_connection->socketDescriptor());
+
         m_sockets[new_connection->socketDescriptor()] = new_socket;
     }
 
@@ -57,7 +58,7 @@ namespace Dandelion::Server {
         }
 
         m_Server->deleteLater();
-        delete m_db;
+     //   delete m_db;
     }
 
 
@@ -84,11 +85,11 @@ namespace Dandelion::Server {
     void client_socket::send_to_client(const QByteArray &data) {
         QByteArray block;
         QDataStream out(&block, QIODevice::WriteOnly);
-        out << (quint16)data.size();
+        out << (quint16) data.size();
         out << data;
         m_socket->write(block);
-       // m_socket->flush();
-       m_socket->waitForBytesWritten();
+        // m_socket->flush();
+        m_socket->waitForBytesWritten();
     }
 
     void client_socket::read_from_client() {
@@ -96,9 +97,10 @@ namespace Dandelion::Server {
         qDebug() << "got from client";
         QJsonDocument response = m_request->validate_request(data);
         qDebug() << "Before sending" << response.object().value("status").toString();
-        qDebug() << "Before sending" << response.object().value("password").toString();
         qDebug() << "Before sending" << response.object().value("username").toString();
         qDebug() << "Before sending" << response.object().value("type").toString();
+        qDebug() << "Before sending" << response.object().value("word1").toString();
+        qDebug() << "Before sending" << response.object().value("meaning1").toString();
         send_to_client(response.toJson());
     }
 
@@ -134,9 +136,21 @@ namespace Dandelion::Server {
                 answer.setObject(obj);
                 return answer;
             } else if (request_type == "registration") {
-                QJsonDocument answer =  make_registration(json_data.object());
+                QJsonDocument answer = make_registration(json_data.object());
                 QJsonObject obj = answer.object();
                 obj["type"] = "registration";
+                answer.setObject(obj);
+                return answer;
+            } else if (request_type == "new_word") {
+                QJsonDocument answer = add_new_word(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "new_word";
+                answer.setObject(obj);
+                return answer;
+            }else if (request_type == "get_vocabulary"){
+                QJsonDocument answer = get_words_from_vocabulary(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "get_vocabulary";
                 answer.setObject(obj);
                 return answer;
             } else {
@@ -183,4 +197,36 @@ namespace Dandelion::Server {
         return check_request(probably_new_user, "failed registration");
     }
 
+    QJsonDocument client_request::add_new_word(const QJsonObject &request) {
+        QJsonObject response;
+        QString received_login = request.value("username").toString();
+        QString received_word = request.value("word").toString();
+        bool result = User_Database::add_new_word(received_login.toStdString(), received_word.toStdString(), *m_db);
+        if (result) {
+            response["status"] = "success";
+            QJsonDocument server_response(response);
+            return server_response;
+        }
+        response["status"] = "error";
+        QJsonDocument server_response(response);
+        return server_response;
+    }
+    QJsonDocument client_request::get_words_from_vocabulary(const QJsonObject &request) {
+        QJsonObject response;
+        QString received_login = request.value("username").toString();
+        QVector<QVector<QString>> vocabulary = User_Database::get_vocabulary(received_login.toStdString(), *m_db);
+        std::string size = std::to_string(vocabulary.size());
+        response["size"] = QString::fromStdString(size);
+        response["status"] = "success";
+        int i = 0;
+        for(auto word: vocabulary){
+            qDebug() << word[0];
+            qDebug() << word[1];
+            response["word" + QString::fromStdString(std::to_string(i))] = word[0];
+            response["meaning" + QString::fromStdString(std::to_string(i))] = word[1];
+            i++;
+        }
+        QJsonDocument server_response(response);
+        return server_response;
+    }
 }
