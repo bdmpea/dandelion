@@ -99,6 +99,10 @@ namespace Dandelion::Server {
         QJsonDocument make_registration(const QJsonObject &request);
 
         QJsonDocument sign_in(const QJsonObject &request);
+
+        QJsonDocument add_new_word(const QJsonObject &request);
+
+        QJsonDocument get_words_from_vocabulary(const QJsonObject &request);
     };
 
 

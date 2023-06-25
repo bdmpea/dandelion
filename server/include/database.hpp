@@ -10,6 +10,8 @@
 #include <thread>
 #include <utility>
 #include <vector>
+#include <QVector>
+#include <QString>
 
 namespace Dandelion::Server {
 
@@ -36,9 +38,10 @@ namespace Dandelion::Server {
     struct User_Database {
         static unsigned int is_used_login(const std::string &login, Database &db);                        //return id
         static User make_signing_in(const std::string &login, const std::string &password, Database &db);
-
         static User create_user(const std::string &login, const std::string &password, Database &db);
-
+        static void create_personal_dictionary(pqxx::work &worker, const std::string &login);
+        static bool add_new_word(const std::string &login, const std::string &word, Database &db);
+        static QVector<QVector<QString>> get_vocabulary(const std::string &login, Database &db);
     };
 
     struct Dictionaries_Database {
