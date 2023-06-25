@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>balda</class>
+ <widget class="QWidget" name="balda">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>836</width>
+    <height>510</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>dandelion</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background-color:rgb(202,212,255);
+}</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>-10</y>
+     <width>861</width>
+     <height>531</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget{
+background-color:rgb(202, 212,255);
+}</string>
+   </property>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>851</width>
+      <height>511</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="WhiteWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>90</y>
+      <width>191</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget{
+    background-color:rgb(255, 255, 255);
+}</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="WordWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>210</y>
+      <width>171</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget{
+   background-color:rgb(202,212,255);
+}</string>
+    </property>
+    <widget class="QLineEdit" name="Word">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>151</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic</family>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: rgb(255,255, 255);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>word</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="AddButton">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>50</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Yu Gothic</family>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+  background-color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>add</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="NewLetterButton">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>474</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>new letter</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="NewWordButton">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>470</y>
+      <width>35</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: &quot;/resources/home.png&quot;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>resources/home.png</normaloff>resources/home.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="StopGameButton">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>474</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>give up</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

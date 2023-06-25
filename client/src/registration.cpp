@@ -10,6 +10,7 @@ Registration::Registration(QWidget *parent) :
     ui(new Ui::Registration)
 {
     ui->setupUi(this);
+    ui->RegistrationButton->setStyleSheet("border-image: url(:card.png)");
 }
 
 

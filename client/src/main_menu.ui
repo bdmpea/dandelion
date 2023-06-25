@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Main_Menu</class>
+ <widget class="QWidget" name="Main_Menu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>697</width>
+    <height>413</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>dandelion</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">Main_Menu
+{
+	background-color: rgb(202, 212, 255);
+}</string>
+  </property>
+  <widget class="QPushButton" name="BaldaButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>150</y>
+     <width>171</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic</family>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Balda</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="WordChainButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>260</y>
+     <width>171</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic</family>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Word chain</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="WhoAmIButton">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>150</y>
+     <width>171</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic</family>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Who am I</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="FillwordsButton">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>260</y>
+     <width>171</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic</family>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Fillwords</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="HomeButton">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>10</y>
+     <width>35</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: &quot;/resources/home.png&quot;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/home.png</normaloff>resources/home.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="NewWordButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>35</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: &quot;/resources/home.png&quot;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/home.png</normaloff>resources/home.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Name">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>50</y>
+     <width>699</width>
+     <height>78</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Yu Gothic</family>
+     <pointsize>23</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>DANDELION</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="WhiteWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>190</y>
+     <width>191</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget{
+    background-color:rgb(255, 255, 255);
+}</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="WordWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>200</y>
+     <width>171</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget{
+   background-color:rgb(202,212,255);
+}</string>
+   </property>
+   <widget class="QLineEdit" name="Word">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>151</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: rgb(255,255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>word</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="AddButton">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>50</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+  background-color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string>add</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

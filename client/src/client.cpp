@@ -5,10 +5,23 @@
 
 client::client(QObject *parent) {
     m_main_window = new MainWindow();
-    connect(m_main_window, SIGNAL(signal_info_for_authorization()), this,
+    connect(m_main_window, SIGNAL(signal_info_for_authorization()),
+            this,
             SLOT(got_info_for_authorization()));
-    connect(m_main_window, SIGNAL(signal_info_for_registration()), this,
+    connect(m_main_window, SIGNAL(signal_info_for_registration()),
+            this,
             SLOT(got_info_for_registration()));
+    connect(m_main_window, SIGNAL(signal_info_for_new_word()),
+            this,
+            SLOT(got_info_for_new_word()));
+    connect(m_main_window,
+            SIGNAL(signal_info_for_new_word_cards()),
+            this,
+            SLOT(got_info_for_new_word_cards()));
+    connect(m_main_window,
+            SIGNAL(signal_for_new_words_from_vocabulary()),
+            this,
+            SLOT(get_vocabulary()));
 }
 
 
@@ -20,9 +33,19 @@ void client::start() {
     m_main_window->show();
     m_client_socket = new socket_on_client(1338, "127.0.0.1");
     m_client_socket->connect_();
-    connect(m_client_socket, SIGNAL(signal_info_for_registration_status(User_information)), this, SLOT(info_for_registration_status(User_information)));
-    connect(m_client_socket, SIGNAL(signal_info_for_authorization_status(User_information)), this,
+    connect(m_client_socket,
+            SIGNAL(signal_info_for_registration_status(User_information)),
+            this,
+            SLOT(info_for_registration_status(User_information)));
+    connect(m_client_socket,
+            SIGNAL(signal_info_for_authorization_status(User_information)),
+            this,
             SLOT(info_for_authorization_status(User_information)));
+    connect(m_client_socket,
+            SIGNAL(signal_info_for_vocabulary_status(QVector<QVector<QString> >)),
+            this,
+            SLOT(info_info_for_vocabulary_status(QVector<QVector<QString> >))
+            );
 }
 
 void client::got_info_for_registration() {
@@ -35,6 +58,21 @@ void client::got_info_for_authorization() {
     m_client_socket->try_sign_in_user(m_main_window->get_username(), m_main_window->get_password());
 }
 
+void client::got_info_for_new_word() {
+    qDebug() << "Got new word";
+    m_client_socket->try_add_new_word(m_user.m_username, m_main_window->window->get_new_word());
+}
+
+void client::got_info_for_new_word_cards() {
+    qDebug() << "Got new word from cards";
+    m_client_socket->try_add_new_word(m_user.m_username, m_main_window->window->personal_account->get_new_word());
+}
+
+void client::get_vocabulary() {
+    qDebug() << "Need vocabulary";
+    m_client_socket->try_get_vocabulary(m_user.m_username);
+}
+
 void client::info_for_authorization_status(User_information user) {
     m_user = std::move(m_client_socket->m_user);
     m_main_window->authorize(m_user.m_status);
@@ -43,6 +81,11 @@ void client::info_for_authorization_status(User_information user) {
 void client::info_for_registration_status(User_information user) {
     m_user = std::move(m_client_socket->m_user);
     m_main_window->registration->register_user(m_user.m_status);
+}
+
+void client::info_info_for_vocabulary_status(QVector<QVector<QString>> vocabulary) {
+    m_main_window->window->personal_account->vocabulary->display(vocabulary);
+    m_main_window->window->personal_account->vocabulary->show();
 }
 
 socket_on_client::socket_on_client(qint16 port, QString ip) : m_client_socket(new QTcpSocket(this)), m_PORT(port),
@@ -81,6 +124,11 @@ void socket_on_client::validate_server_answer() {
         } else if (type == "registration") {
             check_register_user(answer);
             emit signal_info_for_registration_status(m_user);
+        } else if (type == "new_word") {
+            //TODO
+        } else if(type == "get_vocabulary"){
+            QVector<QVector<QString>> vocabulary = unpack_vocabulary(answer);
+            emit signal_info_for_vocabulary_status(vocabulary);
         }
     } else {
         qDebug() << "Some errors with server data";
@@ -102,6 +150,25 @@ void socket_on_client::try_register_user(const QString &username, const QString 
     request["type"] = "registration";
     request["username"] = username;
     request["password"] = password;
+    QJsonDocument m_request(request);
+    send_data_to_server(m_request.toJson());
+}
+
+void socket_on_client::try_add_new_word(const QString &username, const QString &word) {
+    qDebug() << "Try add word";
+    QJsonObject request;
+    request["type"] = "new_word";
+    request["username"] = username;
+    request["word"] = word;
+    QJsonDocument m_request(request);
+    send_data_to_server(m_request.toJson());
+}
+
+void socket_on_client::try_get_vocabulary(const QString &username) {
+    qDebug() << "Try get vocabulary";
+    QJsonObject request;
+    request["type"] = "get_vocabulary";
+    request["username"] = username;
     QJsonDocument m_request(request);
     send_data_to_server(m_request.toJson());
 }
@@ -130,4 +197,14 @@ void socket_on_client::check_register_user(const QJsonDocument &answer) {
     } else {
         m_user = User_information("", "", "error");
     }
+}
+QVector<QVector<QString>> socket_on_client::unpack_vocabulary(const QJsonDocument &answer) {
+    QVector<QVector<QString>> vocabulary;
+      int size = std::stoi(answer.object().value("size").toString().toStdString());
+      vocabulary.resize(size);
+      for(int i = 0; i < size; i++){
+          vocabulary[i].push_back(answer.object().value("word"+QString::fromStdString(std::to_string(i))).toString());
+          vocabulary[i].push_back(answer.object().value("meaning"+QString::fromStdString(std::to_string(i))).toString());
+      }
+    return vocabulary;
 }

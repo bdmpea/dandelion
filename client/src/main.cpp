@@ -14,5 +14,7 @@ int main(int argc, char *argv[])
     }
     client first_client;
     first_client.start();
+    client second_client;
+    second_client.start();
     return a.exec();
 }
