@@ -6,8 +6,8 @@ Main_Menu::Main_Menu(QMainWindow *parent) :
     ui(new Ui::Main_Menu)
 {
     ui->setupUi(this);
-    ui->HomeButton->setIcon(QIcon(":/resources/home.png"));
-    ui->NewWordButton->setIcon(QIcon(":/resources/word.png"));
+    ui->HomeButton->setIcon(QIcon(":/home.png"));
+    ui->NewWordButton->setIcon(QIcon(":/word.png"));
 
     personal_account = new PersonalAccount();
     balda_game = new balda;
@@ -19,11 +19,13 @@ Main_Menu::Main_Menu(QMainWindow *parent) :
     ui->WhiteWidget->setGeometry(52, 12, 175, 95);
 
 
-    ui->BaldaButton->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->WhoAmIButton->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->WordChainButton->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->FillwordsButton->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->AddButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->BaldaButton->setStyleSheet("border-image: url(:/card.png)");
+    ui->WhoAmIButton->setStyleSheet("border-image: url(:/card.png)");
+    ui->WordChainButton->setStyleSheet("border-image: url(:/card.png)");
+    ui->FillwordsButton->setStyleSheet("border-image: url(:/card.png)");
+    ui->AddButton->setStyleSheet("border-image: url(:/card.png)");
+
+    QObject::connect(balda_game, SIGNAL(open_main_menu()), this, SLOT(open_window()));
 }
 
 
@@ -61,5 +63,6 @@ void Main_Menu::on_AddButton_clicked(){
     ui->WhiteWidget->hide();
 }
 
-
-
+void Main_Menu::open_window(){
+    this->show();
+}
