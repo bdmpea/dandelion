@@ -227,4 +227,51 @@ namespace Dandelion::Server {
         QJsonDocument server_response(response);
         return server_response;
     }
+    QJsonDocument client_request::validate_request_1(const QByteArray &data) {
+        QJsonParseError json_data_error{};
+        QJsonDocument json_data = QJsonDocument::fromJson(data, &json_data_error);
+        if (json_data_error.errorString().toInt() == QJsonParseError::NoError) {
+            QString request_type = json_data.object().value("type").toString();
+            if (!request_type.size()) {
+                QJsonObject json_response;
+                json_response["status"] = "error";
+                json_response["text"] = "missing request type";
+                QJsonDocument response(json_response);
+                return response;
+            }
+            if (request_type == "signing_in") {
+                QJsonDocument answer = sign_in(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "sign_in";
+                answer.setObject(obj);
+                return answer;
+            } else if (request_type == "registration") {
+                QJsonDocument answer = make_registration(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "registration";
+                answer.setObject(obj);
+                return answer;
+            } else if (request_type == "new_word") {
+                QJsonDocument answer = add_new_word(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "new_word";
+                answer.setObject(obj);
+                return answer;
+            }else if (request_type == "get_vocabulary"){
+                QJsonDocument answer = get_words_from_vocabulary(json_data.object());
+                QJsonObject obj = answer.object();
+                obj["type"] = "get_vocabulary";
+                answer.setObject(obj);
+                return answer;
+            } else {
+                QJsonObject json_response;
+                json_response["status"] = "error";
+                json_response["text"] = "invalid request type";
+                QJsonDocument response(json_response);
+                return response;
+            }
+        }
+        return json_data;
+    }
+
 }
