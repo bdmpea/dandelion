@@ -1,7 +1,7 @@
 #include "../include/button.h"
 #include "ui_button.h"
 #include "../include/flashcard.h"
-
+#include "QString"
 button::button(QPushButton *parent) :
     QPushButton(parent),
     ui(new Ui::button)
