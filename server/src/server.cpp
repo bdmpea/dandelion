@@ -1,6 +1,7 @@
 #include "../include/server.hpp"
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <vector>
 
 namespace Dandelion::Server {
 
