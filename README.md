@@ -7,8 +7,6 @@
 * PostgreSQL
 * QJson
 ## Запуск приложения
-## Скриншоты приложения
-
 ## Наша команда:
 * [Исаева Екатерина](https://github.com/karambo3a)
 * [Новицкий Григорий](https://github.com/GrigoriyNovitskiy)
