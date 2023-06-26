@@ -19,12 +19,14 @@ public:
      Main_Menu(QMainWindow *parent = nullptr);
     ~Main_Menu();
 
+     QString get_new_word();
+
 private slots:
     void on_HomeButton_clicked();
     void on_BaldaButton_clicked();
     void on_NewWordButton_clicked();
-    QString get_new_word();
     void on_AddButton_clicked();
+    void open_window();
 
 private:
     Ui::Main_Menu *ui;
