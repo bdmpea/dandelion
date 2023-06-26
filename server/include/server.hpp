@@ -96,6 +96,8 @@ namespace Dandelion::Server {
 
         QJsonDocument validate_request(const QByteArray &data);
 
+        QJsonDocument validate_request_1(const QByteArray &data);
+
         QJsonDocument make_registration(const QJsonObject &request);
 
         QJsonDocument sign_in(const QJsonObject &request);
