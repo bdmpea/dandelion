@@ -90,8 +90,8 @@ void PersonalAccount::open_window(){
 }
 
 void PersonalAccount::set_username_label(){
-    QString username = "aboba";             //здесь нужно взять имя юзера
-    ui->Username->setScaledContents( false );
+    QString username = "TTTTgggyPEGY,dmv;laemr;";
     ui->Username->setText(username);
-    ui->Username->setAlignment(Qt::AlignCenter);
+    ui->Username->adjustSize();
+    ui->Username->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 }
