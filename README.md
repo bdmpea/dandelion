@@ -7,6 +7,11 @@
 * PostgreSQL
 * QJson
 ## Запуск приложения
-## Наша команда:
+````
+cmake .
+make
+./dandelion
+```
+## Наша команда
 * [Исаева Екатерина](https://github.com/karambo3a)
 * [Новицкий Григорий](https://github.com/GrigoriyNovitskiy)
