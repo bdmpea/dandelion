@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTcpSocket>
 #include <QVector>
+#include <QString>
 
 namespace Dandelion::Server {
     unsigned int User_Database::is_used_login(const std::string &login, Database &db) {
