@@ -19,12 +19,18 @@ public:
     explicit balda(QWidget *parent = nullptr);
     ~balda();
 
+    QString get_new_word();
+
+signals:
+    void open_main_menu();
+
 public slots:
      void on_NewLetterButton_clicked();
      void on_NewWordButton_clicked();
      void on_AddButton_clicked();
-     QString get_new_word();
 
+private slots:
+     void on_GiveUpButton_clicked();
 
 private:
     Ui::balda *ui;
