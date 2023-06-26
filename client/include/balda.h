@@ -20,6 +20,7 @@ public:
     ~balda();
 
     QString get_new_word();
+    void set_start_word();
 
 signals:
     void open_main_menu();
