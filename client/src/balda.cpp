@@ -3,6 +3,7 @@
 #include "ui_balda.h"
 #include <QTableWidgetItem>
 #include <QPushButton>
+#include <QMessageBox>
 
 balda::balda(QWidget *parent) :
     QWidget(parent),
@@ -19,7 +20,7 @@ balda::balda(QWidget *parent) :
     ui->graphicsView->setCacheMode(QGraphicsView::CacheBackground);
     ui->graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
-    QPixmap pixmap(":/resources/field.png");
+    QPixmap pixmap(":/field.png");
     ui->graphicsView->setBackgroundBrush(pixmap);
 
     for (int i = 0; i < 10; i++){
@@ -39,15 +40,19 @@ balda::balda(QWidget *parent) :
     x_last_letter_position = 600 + 9*40;
     y_last_letter_position = 75;
 
-    ui->NewWordButton->setIcon(QIcon(":/resources/word.png"));
+    ui->NewWordButton->setIcon(QIcon(":/word.png"));
     ui->WordWidget->setGeometry(658, 360, 170, 90);
     ui->WhiteWidget->setGeometry(655, 358, 176, 95);
     ui->WordWidget->hide();
     ui->WhiteWidget->hide();
 
-    ui->NewLetterButton->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->AddButton->setStyleSheet("border-image: url(:/resources/card.png)");
-    ui->StopGameButton->setStyleSheet("border-image: url(:/resources/card.png)");
+    ui->NewLetterButton->setStyleSheet("border-image: url(:/card.png)");
+    ui->AddButton->setStyleSheet("border-image: url(:/card.png)");
+    ui->GiveUpButton->setStyleSheet("border-image: url(:/card.png)");
+
+    this->setStyleSheet("QMessageBox {color: white;}");
+    this->setStyleSheet("QMessageBox QPushButton{border-image: url(:/card.png); min-width:  80px; max-width:  80px; min-height: 20px; max-height: 20px;}");
+
 }
 
 balda::~balda()
@@ -83,3 +88,11 @@ QString balda::get_new_word(){
     return ui->Word->text();
 }
 
+void balda::on_GiveUpButton_clicked()
+{
+    QMessageBox::question(this, "dandelion", "Are you sure you want to finish the game?", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    if (QMessageBox::Yes){
+        this->hide();
+        emit open_main_menu();
+    }
+}
