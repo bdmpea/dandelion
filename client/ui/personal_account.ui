@@ -209,28 +209,34 @@
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="Username">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>90</y>
+     <x>-1</x>
+     <y>60</y>
      <width>431</width>
-     <height>20</height>
+     <height>80</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Yu Gothic</family>
-     <pointsize>20</pointsize>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="Username">
+      <property name="font">
+       <font>
+        <family>Yu Gothic</family>
+        <pointsize>20</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
