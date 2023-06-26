@@ -3,6 +3,7 @@
 #include "main_menu.h"
 #include "info_window.h"
 #include "vocabulary_list.h"
+#include <QLabel>
 
 
 PersonalAccount::PersonalAccount(QWidget *parent) :
@@ -30,8 +31,9 @@ PersonalAccount::PersonalAccount(QWidget *parent) :
 
     QObject::connect(info, SIGNAL(close_personal_account()), this, SLOT(close_window()));
     QObject::connect(desk, SIGNAL(open_personal_account()), this, SLOT(open_window()));
-    QObject::connect(desk, SIGNAL(open_personal_account()), this, SLOT(open_window()));
+    QObject::connect(vocabulary, SIGNAL(open_personal_account()), this, SLOT(open_window()));
 
+    set_username_label();
 }
 
 
@@ -63,6 +65,7 @@ void PersonalAccount::on_FlashcardsButton_clicked()
 
 void PersonalAccount::on_VocabularyButton_clicked(){
     vocabulary->show();
+    vocabulary->display();
     this->hide();
 }
 
@@ -84,4 +87,11 @@ void PersonalAccount::open_window(){
     this->show();
     delete desk;
     desk = new flashcards_desk;
+}
+
+void PersonalAccount::set_username_label(){
+    QString username = "aboba";             //здесь нужно взять имя юзера
+    ui->Username->setScaledContents( false );
+    ui->Username->setText(username);
+    ui->Username->setAlignment(Qt::AlignCenter);
 }
