@@ -168,7 +168,7 @@ background-color:rgb(202, 212,255);
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="StopGameButton">
+   <widget class="QPushButton" name="GiveUpButton">
     <property name="geometry">
      <rect>
       <x>610</x>
