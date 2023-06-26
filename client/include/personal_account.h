@@ -32,6 +32,7 @@ private slots:
 
     void on_NewWordButton_clicked();
     void on_AddButton_2_clicked();
+    void set_username_label();
 
 private:
     Ui::PersonalAccount *ui;
