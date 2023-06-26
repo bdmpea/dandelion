@@ -1,5 +1,6 @@
 #include "balda.h"
 #include "qgraphicsitem.h"
+#include "qlabel.h"
 #include "ui_balda.h"
 #include <QTableWidgetItem>
 #include <QPushButton>
@@ -50,9 +51,12 @@ balda::balda(QWidget *parent) :
     ui->AddButton->setStyleSheet("border-image: url(:/card.png)");
     ui->GiveUpButton->setStyleSheet("border-image: url(:/card.png)");
 
-    this->setStyleSheet("QMessageBox {color: white;}");
-    this->setStyleSheet("QMessageBox QPushButton{border-image: url(:/card.png); min-width:  80px; max-width:  80px; min-height: 20px; max-height: 20px;}");
 
+    //this->setStyleSheet("QMessageBox {color: white;}");
+    this->setStyleSheet("QMessageBox QPushButton{border-image: url(:/card.png); min-width:  80px; max-width:  80px; min-height: 20px; max-height: 20px;}");
+    this->setStyleSheet("QLabel {background-color:rgb(194,228,255); border-style: solid; border-width: 1px; border-color: black; }");
+
+    set_start_word();
 }
 
 balda::~balda()
@@ -94,5 +98,18 @@ void balda::on_GiveUpButton_clicked()
     if (QMessageBox::Yes){
         this->hide();
         emit open_main_menu();
+    }
+}
+
+void balda::set_start_word(){
+    QString start_word = "IMPRESSION";
+    for (int i = 0; i < 10; i++){
+        QLabel *letter = new QLabel(this);
+        letter->setText(start_word[i]);
+        letter->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        letter->setGeometry(42+i*51,225,30,30);
+        QFont font = letter->font();
+        font.setPointSize(15);
+        letter->setFont(font);
     }
 }
