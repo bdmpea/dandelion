@@ -30,7 +30,7 @@ PersonalAccount::PersonalAccount(QWidget *parent) :
 
     QObject::connect(info, SIGNAL(close_personal_account()), this, SLOT(close_window()));
     QObject::connect(desk, SIGNAL(open_personal_account()), this, SLOT(open_window()));
-  //  QObject::connect(desk, SIGNAL(open_personal_account()), this, SLOT(open_window()));
+
     QObject::connect(vocabulary, SIGNAL(open_personal_account()), this, SLOT(open_window()));
 }
 
@@ -63,8 +63,7 @@ void PersonalAccount::on_FlashcardsButton_clicked()
 
 void PersonalAccount::on_VocabularyButton_clicked(){
     emit signal_for_vocabulary();
-//    vocabulary->show();
-//    vocabulary->display();
+
     this->hide();
 }
 
@@ -89,5 +88,11 @@ void PersonalAccount::open_window(){
     desk = new flashcards_desk;
 }
 
+void PersonalAccount::set_username_label(){
+    QString username = m_username;
+    ui->Username->setScaledContents( false );
+    ui->Username->setText(m_username);
+    ui->Username->setAlignment(Qt::AlignCenter);
+}
 
 
