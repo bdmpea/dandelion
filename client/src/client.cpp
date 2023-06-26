@@ -75,7 +75,8 @@ void client::get_vocabulary() {
 
 void client::info_for_authorization_status(User_information user) {
     m_user = std::move(m_client_socket->m_user);
-    m_main_window->authorize(m_user.m_status);
+    m_main_window->authorize(m_user.m_status, m_user.m_username);
+    qDebug() << m_user.m_username << 1;
 }
 
 void client::info_for_registration_status(User_information user) {
